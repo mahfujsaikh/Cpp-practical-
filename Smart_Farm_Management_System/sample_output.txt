@@ -1,0 +1,69 @@
+=====================================
+     SMART FARM MANAGEMENT SYSTEM
+=====================================
+1. Add Cereal Crop
+2. Add Vegetable Crop
+3. Display All Crops
+4. Get Farming Advice
+5. Compare Two Crops
+6. Save Crop Data
+7. Load Saved Crop Data
+8. Show Number of Crops
+0. Exit
+
+Enter your choice: 1
+Enter cereal name: Wheat
+Enter cultivation area (acres): 5
+Enter season: Winter
+Enter expected yield per acre: 2.5
+Enter fertilizer type: NPK
+Cereal crop added successfully.
+
+Enter your choice: 2
+Enter vegetable name: Tomato
+Enter cultivation area (acres): 3
+Enter season: Winter
+Enter expected yield per acre: 4
+Irrigation frequency (in days): 2
+Vegetable crop added successfully.
+
+Enter your choice: 3
+
+========== CROP RECORDS ==========
+
+----- Cereal Crop Details -----
+Crop Name       : Wheat
+Area            : 5.00 acres
+Season          : Winter
+Yield per Acre  : 2.50
+Total Yield     : 12.50
+Fertilizer Type : NPK
+
+----- Vegetable Crop Details -----
+Crop Name       : Tomato
+Area            : 3.00 acres
+Season          : Winter
+Yield per Acre  : 4.00
+Total Yield     : 12.00
+Irrigation      : Every 2 day(s)
+
+Enter your choice: 5
+
+Available crops:
+1. Wheat
+2. Tomato
+Select first crop: 1
+Select second crop: 2
+Wheat has a higher total yield than Tomato.
+
+Enter your choice: 6
+
+Crop data saved successfully.
+
+Enter your choice: 8
+
+Current number of crop objects: 2
+
+Enter your choice: 0
+
+Exiting Smart Farm Management System...
