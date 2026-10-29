@@ -1,75 +1,46 @@
 # Smart Farm Management System
 
-This is a simple C++ console project made for our OOP assignment. The program stores crop details and demonstrates the main concepts asked in the assignment.
+This is my C++ OOP assignment based on a simple farm management system.
 
-## What the program can do
+The program can store cereal and vegetable crop details, calculate total yield, compare two crops, give basic farming advice and save crop records in a text file.
 
-- Add cereal crops and vegetable crops
-- Store crop name, area, season and yield per acre
-- Calculate total yield
-- Display crop details
-- Give simple farming advice
-- Compare two crops by total yield
-- Save crop data to a text file
-- Load saved crop data again
-- Count how many crop objects are currently present
-- Handle invalid area, yield and menu input
+## Concepts used
 
-## OOP concepts used
-
-- Class and object
+- Classes and objects
 - Inheritance
 - Constructor overloading
-- Runtime polymorphism using virtual functions
+- Runtime polymorphism
 - Virtual destructor
 - Operator overloading
 - Abstract class and pure virtual function
-- Static data member
+- Static member
 - File handling
 - Exception handling
 
-## Main class structure
+## Classes
 
-`Crop` is the base class. It stores the common information for all crops:
+`Crop` is the base class and stores common details like crop name, area, season and yield per acre.
 
-- name
-- area
-- season
-- yield per acre
+`CerealCrop` stores fertilizer type.
 
-`CerealCrop` and `VegetableCrop` inherit from `Crop`.
+`VegetableCrop` stores irrigation frequency.
 
-`CerealCrop` has an extra data member for fertilizer type, while `VegetableCrop` stores irrigation frequency.
+`Advisory` is an abstract class containing `giveAdvice()`.
 
-The `Advisory` class is abstract and contains the pure virtual function `giveAdvice()`. Both derived crop classes implement this function differently.
+## Total yield
 
-## Yield calculation
+Total Yield = Area x Yield per Acre
 
-Total yield is calculated by:
+## Files
 
-`Total Yield = Area x Yield per Acre`
+- `main.cpp` - program code
+- `crop_data.txt` - sample crop data
+- `sample_output.txt` - sample program output
 
-## Files in this folder
-
-- `main.cpp` - main source code
-- `crop_data.txt` - sample saved crop records
-- `sample_output.txt` - a sample run of the program
-
-## Compile and run
-
-Using g++:
+## Compile
 
 ```bash
 g++ main.cpp -o smartfarm
-./smartfarm
 ```
 
-On Windows, after compilation, run:
-
-```bash
-smartfarm.exe
-```
-
-## Note
-
-The program currently stores up to 10 crop records at a time. Option 6 saves them to `crop_data.txt`, and option 7 loads the saved records back into the program.
+Then run the program and use the menu options.
