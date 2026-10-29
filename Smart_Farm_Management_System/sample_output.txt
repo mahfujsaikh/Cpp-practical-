@@ -1,69 +1,67 @@
-=====================================
-     SMART FARM MANAGEMENT SYSTEM
-=====================================
+==============================
+ SMART FARM MANAGEMENT SYSTEM
+==============================
 1. Add Cereal Crop
 2. Add Vegetable Crop
-3. Display All Crops
-4. Get Farming Advice
+3. Display Crops
+4. Farming Advice
 5. Compare Two Crops
-6. Save Crop Data
-7. Load Saved Crop Data
-8. Show Number of Crops
+6. Save Data
+7. Read Saved Data
+8. Crop Count
 0. Exit
+Enter choice: 1
 
-Enter your choice: 1
-Enter cereal name: Wheat
-Enter cultivation area (acres): 5
-Enter season: Winter
-Enter expected yield per acre: 2.5
-Enter fertilizer type: NPK
-Cereal crop added successfully.
+Crop name: Wheat
+Area in acres: 5
+Season: Winter
+Yield per acre: 2.5
+Fertilizer type: NPK
+Cereal crop added.
 
-Enter your choice: 2
-Enter vegetable name: Tomato
-Enter cultivation area (acres): 3
-Enter season: Winter
-Enter expected yield per acre: 4
-Irrigation frequency (in days): 2
-Vegetable crop added successfully.
+Enter choice: 2
 
-Enter your choice: 3
+Crop name: Tomato
+Area in acres: 3
+Season: Winter
+Yield per acre: 4
+Irrigation frequency in days: 2
+Vegetable crop added.
 
-========== CROP RECORDS ==========
+Enter choice: 3
 
------ Cereal Crop Details -----
-Crop Name       : Wheat
+--- Cereal Crop ---
+Name            : Wheat
 Area            : 5.00 acres
 Season          : Winter
-Yield per Acre  : 2.50
-Total Yield     : 12.50
-Fertilizer Type : NPK
+Yield per acre  : 2.50
+Total yield     : 12.50
+Fertilizer      : NPK
 
------ Vegetable Crop Details -----
-Crop Name       : Tomato
+--- Vegetable Crop ---
+Name            : Tomato
 Area            : 3.00 acres
 Season          : Winter
-Yield per Acre  : 4.00
-Total Yield     : 12.00
+Yield per acre  : 4.00
+Total yield     : 12.00
 Irrigation      : Every 2 day(s)
 
-Enter your choice: 5
+Enter choice: 4
+For Wheat, use NPK properly and maintain regular irrigation.
+For Tomato, irrigate every 2 day(s) and check for pests.
 
-Available crops:
+Enter choice: 5
 1. Wheat
 2. Tomato
-Select first crop: 1
-Select second crop: 2
-Wheat has a higher total yield than Tomato.
+Choose first crop: 1
+Choose second crop: 2
+Wheat has higher total yield.
 
-Enter your choice: 6
+Enter choice: 6
+Data saved to crop_data.txt
 
-Crop data saved successfully.
+Enter choice: 8
+Total crop objects: 2
 
-Enter your choice: 8
-
-Current number of crop objects: 2
-
-Enter your choice: 0
-
-Exiting Smart Farm Management System...
+Enter choice: 0
+Program ended.
