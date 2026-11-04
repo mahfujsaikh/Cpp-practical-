@@ -1,6 +1,4 @@
-==============================
- SMART FARM MANAGEMENT SYSTEM
-==============================
+SMART FARM MANAGEMENT SYSTEM
 1. Add Cereal Crop
 2. Add Vegetable Crop
 3. Display Crops
@@ -10,45 +8,43 @@
 7. Read Saved Data
 8. Crop Count
 0. Exit
-Enter choice: 1
 
+Enter choice: 1
 Crop name: Wheat
 Area in acres: 5
 Season: Winter
-Yield per acre: 2.5
+Yield per acre (kg): 2500
 Fertilizer type: NPK
 Cereal crop added.
 
 Enter choice: 2
-
 Crop name: Tomato
 Area in acres: 3
 Season: Winter
-Yield per acre: 4
+Yield per acre (kg): 4000
 Irrigation frequency in days: 2
 Vegetable crop added.
 
 Enter choice: 3
-
 --- Cereal Crop ---
-Name            : Wheat
-Area            : 5.00 acres
-Season          : Winter
-Yield per acre  : 2.50
-Total yield     : 12.50
-Fertilizer      : NPK
+Name           : Wheat
+Area           : 5.00 acres
+Season         : Winter
+Yield per acre : 2500.00
+Total yield    : 12500.00
+Fertilizer     : NPK
 
 --- Vegetable Crop ---
-Name            : Tomato
-Area            : 3.00 acres
-Season          : Winter
-Yield per acre  : 4.00
-Total yield     : 12.00
-Irrigation      : Every 2 day(s)
+Name           : Tomato
+Area           : 3.00 acres
+Season         : Winter
+Yield per acre : 4000.00
+Total yield    : 12000.00
+Irrigation     : Every 2 day(s)
 
 Enter choice: 4
-For Wheat, use NPK properly and maintain regular irrigation.
-For Tomato, irrigate every 2 day(s) and check for pests.
+For Wheat, use NPK as needed and maintain regular irrigation.
+For Tomato, irrigate about every 2 day(s) and check regularly for pests.
 
 Enter choice: 5
 1. Wheat
@@ -59,9 +55,11 @@ Wheat has higher total yield.
 
 Enter choice: 6
 Data saved to crop_data.txt
-
+Enter choice: 7
+--- Saved crop data ---
+Cereal,Wheat,5,Winter,2500,NPK
+Vegetable,Tomato,3,Winter,4000,2
 Enter choice: 8
 Total crop objects: 2
-
 Enter choice: 0
 Program ended.
