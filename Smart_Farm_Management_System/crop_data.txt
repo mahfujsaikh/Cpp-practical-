@@ -1,2 +1,2 @@
-Cereal|Wheat|5|Winter|2.5|NPK
-Vegetable|Tomato|3|Winter|4|2
+Cereal,Wheat,5,Winter,2500,NPK
+Vegetable,Tomato,3,Winter,4000,2
