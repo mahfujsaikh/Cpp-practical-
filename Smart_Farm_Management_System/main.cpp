@@ -3,10 +3,10 @@
 #include <iomanip>
 #include <string>
 #include <stdexcept>
-
+#include <limits>
 using namespace std;
 
-// abstract class for crop advice
+// Abstract class for farming advice
 class Advisory
 {
 public:
@@ -14,22 +14,20 @@ public:
     virtual ~Advisory() {}
 };
 
-// base class
+// Base class for all crops
 class Crop : public Advisory
 {
 protected:
-    string name;
-    float area;
-    string season;
-    float yieldPerAcre;
+    string name, season;
+    float area, yieldPerAcre;
     static int cropCount;
 
 public:
     Crop()
     {
         name = "Unknown";
-        area = 0;
         season = "Unknown";
+        area = 0;
         yieldPerAcre = 0;
         cropCount++;
     }
@@ -37,10 +35,9 @@ public:
     Crop(string n, float a, string s, float y)
     {
         if (a <= 0)
-            throw invalid_argument("Area cannot be zero or negative");
-
+            throw invalid_argument("Area must be greater than zero.");
         if (y < 0)
-            throw invalid_argument("Yield cannot be negative");
+            throw invalid_argument("Yield cannot be negative.");
 
         name = n;
         area = a;
@@ -49,11 +46,11 @@ public:
         cropCount++;
     }
 
-    // overloaded constructor
+    // Another constructor with fewer arguments
     Crop(string n, float a)
     {
         if (a <= 0)
-            throw invalid_argument("Area cannot be zero or negative");
+            throw invalid_argument("Area must be greater than zero.");
 
         name = n;
         area = a;
@@ -69,30 +66,23 @@ public:
 
     virtual void display() const
     {
-        cout << "Name            : " << name << endl;
-        cout << "Area            : " << area << " acres" << endl;
-        cout << "Season          : " << season << endl;
-        cout << "Yield per acre  : " << yieldPerAcre << endl;
-        cout << "Total yield     : " << calculateYield() << endl;
+        cout << "Name           : " << name << endl;
+        cout << "Area           : " << area << " acres" << endl;
+        cout << "Season         : " << season << endl;
+        cout << "Yield per acre : " << yieldPerAcre << endl;
+        cout << "Total yield    : " << calculateYield() << endl;
     }
 
-    // operator overloading to compare total yield
-    bool operator>(const Crop &c) const
+    // Compare the total yields of two crop objects
+    bool operator>(const Crop &other) const
     {
-        return calculateYield() > c.calculateYield();
+        return calculateYield() > other.calculateYield();
     }
 
     virtual void saveToFile(ofstream &file) const = 0;
 
-    string getName() const
-    {
-        return name;
-    }
-
-    static int getCropCount()
-    {
-        return cropCount;
-    }
+    string getName() const { return name; }
+    static int getCropCount() { return cropCount; }
 
     virtual ~Crop()
     {
@@ -113,23 +103,28 @@ public:
         fertilizerType = f;
     }
 
+    float calculateYield() const override
+    {
+        return area * yieldPerAcre;
+    }
+
     void display() const override
     {
         cout << "\n--- Cereal Crop ---\n";
         Crop::display();
-        cout << "Fertilizer      : " << fertilizerType << endl;
+        cout << "Fertilizer     : " << fertilizerType << endl;
     }
 
     void giveAdvice() const override
     {
         cout << "For " << name << ", use " << fertilizerType
-             << " properly and maintain regular irrigation.\n";
+             << " as needed and maintain regular irrigation.\n";
     }
 
     void saveToFile(ofstream &file) const override
     {
-        file << "Cereal, " << name << ", " << area << ", " << season
-             << ", " << yieldPerAcre << ", " << fertilizerType << endl;
+        file << "Cereal," << name << "," << area << "," << season << ","
+             << yieldPerAcre << "," << fertilizerType << endl;
     }
 };
 
@@ -138,59 +133,61 @@ class VegetableCrop : public Crop
     int irrigationFrequency;
 
 public:
-    VegetableCrop(string n, float a, string s, float y, int i)
+    VegetableCrop(string n, float a, string s, float y, int days)
         : Crop(n, a, s, y)
     {
-        if (i <= 0)
-            throw invalid_argument("Irrigation frequency must be positive");
+        if (days <= 0)
+            throw invalid_argument("Irrigation frequency must be positive.");
+        irrigationFrequency = days;
+    }
 
-        irrigationFrequency = i;
+    float calculateYield() const override
+    {
+        return area * yieldPerAcre;
     }
 
     void display() const override
     {
         cout << "\n--- Vegetable Crop ---\n";
         Crop::display();
-        cout << "Irrigation      : Every " << irrigationFrequency << " day(s)" << endl;
+        cout << "Irrigation     : Every " << irrigationFrequency << " day(s)" << endl;
     }
 
     void giveAdvice() const override
     {
-        cout << "For " << name << ", irrigate every " << irrigationFrequency
-             << " day(s) and check for pests.\n";
+        cout << "For " << name << ", irrigate about every " << irrigationFrequency
+             << " day(s) and check regularly for pests.\n";
     }
 
     void saveToFile(ofstream &file) const override
     {
-        file << "Vegetable, " << name << ", " << area << ", " << season
-             << ", " << yieldPerAcre << ", " << irrigationFrequency << endl;
+        file << "Vegetable," << name << "," << area << "," << season << ","
+             << yieldPerAcre << "," << irrigationFrequency << endl;
     }
 };
 
-void showSavedData()
+// Read the records previously saved in the text file
+void readSavedData()
 {
     ifstream file("crop_data.txt");
-    string line;
-
     if (!file)
     {
         cout << "No saved file found.\n";
         return;
     }
 
-    cout << "\n--- Data from file ---\n";
+    cout << "\n--- Saved crop data ---\n";
+    string line;
     while (getline(file, line))
         cout << line << endl;
-
     file.close();
 }
 
 int main()
 {
-    Crop *crops[10];
+    Crop *crops[10] = {nullptr};
     int count = 0;
-    int choice;
-
+    int choice = -1;
     cout << fixed << setprecision(2);
 
     do
@@ -208,11 +205,21 @@ int main()
         cout << "8. Crop Count\n";
         cout << "0. Exit\n";
         cout << "Enter choice: ";
-        cin >> choice;
+
+        if (!(cin >> choice))
+        {
+            if (cin.eof())
+                break;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a number from the menu.\n";
+            choice = -1;
+            continue;
+        }
 
         try
         {
-            if (choice == 1)
+            if (choice == 1 || choice == 2)
             {
                 if (count == 10)
                 {
@@ -220,88 +227,59 @@ int main()
                     continue;
                 }
 
-                string name, season, fertilizer;
-                float area, cropYield;
-
+                string cropName, cropSeason;
+                float cropArea, cropYield;
                 cout << "Crop name: ";
                 cin >> ws;
-                getline(cin, name);
-
+                getline(cin, cropName);
                 cout << "Area in acres: ";
-                cin >> area;
-
+                if (!(cin >> cropArea))
+                    throw invalid_argument("Enter a valid number for area.");
                 cout << "Season: ";
                 cin >> ws;
-                getline(cin, season);
+                getline(cin, cropSeason);
+                cout << "Yield per acre (kg): ";
+                if (!(cin >> cropYield))
+                    throw invalid_argument("Enter a valid number for yield.");
 
-                cout << "Yield per acre: ";
-                cin >> cropYield;
-
-                cout << "Fertilizer type: ";
-                cin >> ws;
-                getline(cin, fertilizer);
-
-                crops[count] = new CerealCrop(name, area, season, cropYield, fertilizer);
-                count++;
-                cout << "Cereal crop added.\n";
-            }
-
-            else if (choice == 2)
-            {
-                if (count == 10)
+                if (choice == 1)
                 {
-                    cout << "Maximum crop limit reached.\n";
-                    continue;
+                    string fertilizer;
+                    cout << "Fertilizer type: ";
+                    cin >> ws;
+                    getline(cin, fertilizer);
+                    crops[count] = new CerealCrop(cropName, cropArea, cropSeason,
+                                                  cropYield, fertilizer);
+                    cout << "Cereal crop added.\n";
                 }
-
-                string name, season;
-                float area, cropYield;
-                int irrigation;
-
-                cout << "Crop name: ";
-                cin >> ws;
-                getline(cin, name);
-
-                cout << "Area in acres: ";
-                cin >> area;
-
-                cout << "Season: ";
-                cin >> ws;
-                getline(cin, season);
-
-                cout << "Yield per acre: ";
-                cin >> cropYield;
-
-                cout << "Irrigation frequency in days: ";
-                cin >> irrigation;
-
-                crops[count] = new VegetableCrop(name, area, season, cropYield, irrigation);
+                else
+                {
+                    int days;
+                    cout << "Irrigation frequency in days: ";
+                    if (!(cin >> days))
+                        throw invalid_argument("Enter a valid number of days.");
+                    crops[count] = new VegetableCrop(cropName, cropArea, cropSeason,
+                                                     cropYield, days);
+                    cout << "Vegetable crop added.\n";
+                }
                 count++;
-                cout << "Vegetable crop added.\n";
             }
-
             else if (choice == 3)
             {
                 if (count == 0)
                     cout << "No crop records available.\n";
                 else
-                {
                     for (int i = 0; i < count; i++)
                         crops[i]->display();
-                }
             }
-
             else if (choice == 4)
             {
                 if (count == 0)
                     cout << "No crops available.\n";
                 else
-                {
                     for (int i = 0; i < count; i++)
                         crops[i]->giveAdvice();
-                }
             }
-
             else if (choice == 5)
             {
                 if (count < 2)
@@ -309,19 +287,18 @@ int main()
                     cout << "Add at least two crops first.\n";
                     continue;
                 }
-
-                int a, b;
-
                 for (int i = 0; i < count; i++)
                     cout << i + 1 << ". " << crops[i]->getName() << endl;
 
+                int a, b;
                 cout << "Choose first crop: ";
-                cin >> a;
+                if (!(cin >> a))
+                    throw invalid_argument("Enter a valid crop number.");
                 cout << "Choose second crop: ";
-                cin >> b;
-
-                if (a < 1 || a > count || b < 1 || b > count)
-                    throw out_of_range("Invalid crop number");
+                if (!(cin >> b))
+                    throw invalid_argument("Enter a valid crop number.");
+                if (a < 1 || a > count || b < 1 || b > count || a == b)
+                    throw out_of_range("Choose two different valid crop numbers.");
 
                 if (*crops[a - 1] > *crops[b - 1])
                     cout << crops[a - 1]->getName() << " has higher total yield.\n";
@@ -330,50 +307,44 @@ int main()
                 else
                     cout << "Both crops have the same total yield.\n";
             }
-
             else if (choice == 6)
             {
                 ofstream file("crop_data.txt");
-
                 if (!file)
-                    throw runtime_error("File could not be opened");
-
+                    throw runtime_error("File could not be opened.");
                 for (int i = 0; i < count; i++)
                     crops[i]->saveToFile(file);
-
+                if (!file.good())
+                    throw runtime_error("Error while saving crop data.");
                 file.close();
                 cout << "Data saved to crop_data.txt\n";
             }
-
             else if (choice == 7)
-            {
-                showSavedData();
-            }
-
+                readSavedData();
             else if (choice == 8)
-            {
                 cout << "Total crop objects: " << Crop::getCropCount() << endl;
-            }
-
             else if (choice == 0)
-            {
                 cout << "Program ended.\n";
-            }
-
             else
-            {
                 cout << "Invalid menu choice.\n";
-            }
         }
         catch (const exception &e)
         {
             cout << "Error: " << e.what() << endl;
+            if (cin.fail())
+            {
+                if (cin.eof())
+                    choice = 0;
+                else
+                {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                }
+            }
         }
-
     } while (choice != 0);
 
     for (int i = 0; i < count; i++)
         delete crops[i];
-
     return 0;
 }
