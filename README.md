@@ -23,6 +23,8 @@ Folder: `01_Official_Practicals`
 | 7 | Function Overloading — Area of Circle, Rectangle and Triangle |
 | 8 | Multilevel Inheritance — Student, Exam and Result |
 | 9 | Friend Function to Swap Numbers Between Two Classes |
+| 10 | Virtual Functions — Book and Tape Media Hierarchy |
+| 11 | Virtual Base Class — Student Total Marks |
 
 ### 3. Smart Farm Management System
 Folder: `Smart_Farm_Management_System`
